@@ -1,8 +1,8 @@
 use std::time::Instant;
 
 mod pepeja {
-    use std::fmt::Debug;
     use std::cmp::PartialEq;
+    use std::fmt::Debug;
 
     pub trait Hashable {
         fn hash(&self) -> usize;
@@ -37,7 +37,11 @@ mod pepeja {
         taken_count: usize,
     }
 
-    impl<Key: Clone + Default + Debug + PartialEq + Hashable, Value: Clone + Default + Debug> HashTable<Key, Value> {
+    impl<Key, Value> HashTable<Key, Value>
+    where
+        Key: Clone + Default + Debug + PartialEq + Hashable,
+        Value: Clone + Default + Debug,
+    {
         pub fn new() -> Self {
             const INITIAL_CAPACITY: usize = 11;
             Self {
@@ -50,7 +54,7 @@ mod pepeja {
             assert!(self.cells.len() > 0);
             let mut new_self = Self {
                 cells: vec![HashCell::<_, _>::default(); self.cells.len() * 2 + 1],
-                taken_count: 0
+                taken_count: 0,
             };
 
             for cell in self.cells.iter() {
